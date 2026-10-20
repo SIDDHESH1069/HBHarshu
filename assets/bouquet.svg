@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="200" height="250" viewBox="0 0 200 250">
+  <!-- Rose Bouquet -->
+  <!-- Stems -->
+  <line x1="100" y1="130" x2="85" y2="240" stroke="#2d5a27" stroke-width="4"/>
+  <line x1="100" y1="130" x2="100" y2="245" stroke="#2d5a27" stroke-width="4"/>
+  <line x1="100" y1="130" x2="115" y2="240" stroke="#2d5a27" stroke-width="4"/>
+  <!-- Leaves -->
+  <ellipse cx="75" cy="180" rx="18" ry="8" fill="#3a7a32" transform="rotate(-30, 75, 180)"/>
+  <ellipse cx="125" cy="190" rx="18" ry="8" fill="#3a7a32" transform="rotate(25, 125, 190)"/>
+  <ellipse cx="90" cy="200" rx="15" ry="7" fill="#4a8a42" transform="rotate(-20, 90, 200)"/>
+  <!-- Wrapper -->
+  <path d="M60 160 Q55 200 70 240 L130 240 Q145 200 140 160 Z" fill="#e8c4c4" opacity="0.7"/>
+  <path d="M65 165 Q60 200 73 235 L127 235 Q140 200 135 165 Z" fill="none" stroke="#d4a0a0" stroke-width="1.5"/>
+  <!-- Roses - back layer -->
+  <circle cx="80" cy="110" r="18" fill="#c9186a"/>
+  <circle cx="120" cy="110" r="18" fill="#e8365d"/>
+  <circle cx="100" cy="100" r="20" fill="#d81b7a"/>
+  <!-- Rose petals (spirals) -->
+  <path d="M100 95 Q105 90 100 85 Q95 90 100 95" fill="#ff4d97" opacity="0.6"/>
+  <path d="M80 105 Q85 100 80 95 Q75 100 80 105" fill="#e84070" opacity="0.6"/>
+  <path d="M120 105 Q125 100 120 95 Q115 100 120 105" fill="#ff6090" opacity="0.6"/>
+  <!-- More roses -->
+  <circle cx="90" cy="120" r="16" fill="#b8164e"/>
+  <circle cx="110" cy="120" r="16" fill="#c9186a"/>
+  <circle cx="70" cy="125" r="14" fill="#e8365d"/>
+  <circle cx="130" cy="125" r="14" fill="#d81b7a"/>
+  <!-- Baby breath dots -->
+  <circle cx="60" cy="100" r="3" fill="white" opacity="0.8"/>
+  <circle cx="65" cy="95" r="2" fill="white" opacity="0.6"/>
+  <circle cx="140" cy="100" r="3" fill="white" opacity="0.8"/>
+  <circle cx="135" cy="93" r="2" fill="white" opacity="0.6"/>
+  <circle cx="55" cy="115" r="2.5" fill="white" opacity="0.7"/>
+  <circle cx="145" cy="115" r="2.5" fill="white" opacity="0.7"/>
+  <!-- Ribbon -->
+  <path d="M85 160 Q100 170 115 160" stroke="#f0b44c" stroke-width="3" fill="none"/>
+  <path d="M90 162 Q85 175 80 185" stroke="#f0b44c" stroke-width="2.5" fill="none"/>
+  <path d="M110 162 Q115 175 120 185" stroke="#f0b44c" stroke-width="2.5" fill="none"/>
+</svg>

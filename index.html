@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#1a0b1f">
+    <title>Happy Birthday! 🎂</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Dancing+Script:wght@500;700&family=Inter:wght@400;500;600&family=Playfair+Display:ital,wght@0,700;0,900;1,700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="app">
+        <div id="phone-frame">
+
+            <!-- Background sparkles (drawn by JS on dark scenes) -->
+            <canvas id="sparkles-canvas" aria-hidden="true"></canvas>
+
+            <!-- ============================================ -->
+            <!-- SCENE 0 – Intro (light blush background)    -->
+            <!-- ============================================ -->
+            <section class="scene active" id="scene-0" data-bg="light">
+                <div class="scene-content scene-0-content">
+                    <h2 class="intro-heading">Your birthday surprise starts here</h2>
+
+                    <div class="intro-heart-container">
+                        <div class="intro-heart" id="intro-heart">
+                            <!-- Glossy heart SVG -->
+                            <svg viewBox="0 0 120 110" class="heart-svg">
+                                <defs>
+                                    <radialGradient id="heartGlow" cx="50%" cy="40%" r="60%">
+                                        <stop offset="0%" stop-color="#ff7eb3"/>
+                                        <stop offset="100%" stop-color="#c9186a"/>
+                                    </radialGradient>
+                                    <filter id="heartShadow">
+                                        <feDropShadow dx="0" dy="4" stdDeviation="8" flood-color="#ff4d97" flood-opacity="0.5"/>
+                                    </filter>
+                                </defs>
+                                <path d="M60 100 C60 100 5 65 5 35 C5 15 20 0 40 0 C52 0 60 10 60 10 C60 10 68 0 80 0 C100 0 115 15 115 35 C115 65 60 100 60 100Z" fill="url(#heartGlow)" filter="url(#heartShadow)"/>
+                                <!-- Glossy highlight -->
+                                <ellipse cx="42" cy="28" rx="15" ry="10" fill="white" opacity="0.25" transform="rotate(-20, 42, 28)"/>
+                            </svg>
+                        </div>
+                        <!-- Arrow (hidden initially, animated via JS) -->
+                        <div class="intro-arrow" id="intro-arrow">
+                            <svg viewBox="0 0 20 80" width="20" height="80">
+                                <line x1="10" y1="0" x2="10" y2="70" stroke="#c9186a" stroke-width="3"/>
+                                <polygon points="4,8 10,0 16,8" fill="#c9186a"/>
+                                <!-- Feather -->
+                                <path d="M7 70 Q0 75 7 80" stroke="#f0b44c" stroke-width="1.5" fill="none"/>
+                                <path d="M13 70 Q20 75 13 80" stroke="#f0b44c" stroke-width="1.5" fill="none"/>
+                            </svg>
+                        </div>
+                    </div>
+
+                    <!-- Vertical Bow and Arrow Interaction (aiming UP at the heart) -->
+                    <div class="intro-bow-area" id="bow-area">
+                        <div class="bow-assembly" id="bow-assembly">
+                            <!-- Aiming UP towards the heart! -->
+                            <svg class="bow-svg" id="bow-svg" viewBox="0 0 160 110" width="160" height="110">
+                                <defs>
+                                    <linearGradient id="bowWoodGrad" x1="0" y1="0" x2="1" y2="0">
+                                        <stop offset="0%" stop-color="#6B3410"/>
+                                        <stop offset="40%" stop-color="#8B4513"/>
+                                        <stop offset="70%" stop-color="#A0522D"/>
+                                        <stop offset="100%" stop-color="#6B3410"/>
+                                    </linearGradient>
+                                    <filter id="bowGlow" x="-20%" y="-20%" width="140%" height="140%">
+                                        <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#8B4513" flood-opacity="0.3"/>
+                                    </filter>
+                                </defs>
+                                <!-- Bow stave (curves upward toward heart) -->
+                                <path d="M 15 65 Q 80 18 145 65" stroke="url(#bowWoodGrad)" stroke-width="7" fill="none" stroke-linecap="round" filter="url(#bowGlow)"/>
+                                <!-- Bow grip (leather wrap in center) -->
+                                <rect x="73" y="36" width="14" height="10" rx="3" fill="#422006"/>
+                                <!-- Bow string (straight when idle, pulls down) -->
+                                <path d="M 15 65 L 80 65 L 145 65" stroke="#d4a96c" stroke-width="2" fill="none" class="bow-string" id="bow-string"/>
+                                <!-- Arrow nock on string -->
+                                <circle cx="80" cy="65" r="4" fill="#c9186a" class="bow-nock" id="bow-nock"/>
+                                <!-- Arrow (sits on the string, pointing UP) -->
+                                <g class="bow-arrow-on-string" id="bow-arrow-on-string">
+                                    <line x1="80" y1="65" x2="80" y2="14" stroke="#c9186a" stroke-width="3" stroke-linecap="round"/>
+                                    <!-- Arrowhead pointing up -->
+                                    <polygon points="74,22 80,10 86,22" fill="#c9186a"/>
+                                    <!-- Feather fletchings -->
+                                    <path d="M 75 58 Q 70 62 75 66" stroke="#f0b44c" stroke-width="1.8" fill="none"/>
+                                    <path d="M 85 58 Q 90 62 85 66" stroke="#f0b44c" stroke-width="1.8" fill="none"/>
+                                </g>
+                            </svg>
+                            <!-- Drag handle at the nock/string area -->
+                            <div class="bow-drag-zone" id="drag-handle" role="button" tabindex="0" aria-label="Pull down the bow string to begin">
+                                <div class="bow-drag-indicator">
+                                    <span class="drag-arrow-icon">↓</span>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="hint-text">Pull down & release to begin 🏹</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ============================================ -->
+            <!-- SCENE 1 – Hero reveal (hot pink)            -->
+            <!-- ============================================ -->
+            <section class="scene" id="scene-1" data-bg="pink">
+                <div class="scene-content scene-1-content" role="button" tabindex="0">
+                    <h1 class="hero-title" id="hero-title">
+                        <!-- Letters inserted by JS with stagger animation -->
+                    </h1>
+                    <p class="hero-yay" id="hero-yay">Yay!!! 🎉</p>
+                    <p class="hint-text hint-light">tap anywhere to continue</p>
+                </div>
+            </section>
+
+            <!-- ============================================ -->
+            <!-- SCENE 2 – Name greeting (cream/blush)       -->
+            <!-- ============================================ -->
+            <section class="scene" id="scene-2" data-bg="light">
+                <div class="scene-content scene-2-content" role="button" tabindex="0">
+                    <p class="greeting-label">it's officially your day</p>
+                    <h1 class="greeting-title">Happy Birthday,</h1>
+                    <h1 class="greeting-name" id="greeting-name">
+                        <!-- Recipient name inserted by JS -->
+                    </h1>
+                    <p class="greeting-age" id="greeting-age">
+                        <!-- Age line inserted by JS -->
+                    </p>
+
+                    <!-- Floating hearts container (hearts injected by JS) -->
+                    <div class="floating-hearts" id="floating-hearts" aria-hidden="true"></div>
+
+                    <!-- Bouquet image -->
+                    <img class="bouquet-img" id="bouquet-img" src="" alt="Rose bouquet" loading="lazy">
+
+                    <p class="hint-text">tap anywhere to continue</p>
+                </div>
+            </section>
+
+            <!-- ============================================ -->
+            <!-- SCENE 3 – Cake & wish (dark plum)           -->
+            <!-- ============================================ -->
+            <section class="scene" id="scene-3" data-bg="dark">
+                <div class="scene-content scene-3-content">
+                    <h2 class="cake-heading">Cake first. Obviously. 🎂</h2>
+
+                    <div class="cake-container" id="cake-container" role="button" tabindex="0">
+                        <!-- 3-tier cake inline SVG -->
+                        <svg class="cake-svg" viewBox="0 0 260 250" aria-label="Birthday cake">
+                            <!-- Plate -->
+                            <ellipse cx="130" cy="240" rx="125" ry="12" fill="#8B6347"/>
+                            <ellipse cx="130" cy="238" rx="120" ry="10" fill="#a0764a"/>
+                            <!-- Bottom tier -->
+                            <rect x="30" y="185" width="200" height="55" rx="8" fill="#5C3A21"/>
+                            <rect x="30" y="185" width="200" height="8" rx="4" fill="#7B4F2E"/>
+                            <!-- Dripping glaze bottom -->
+                            <path d="M30 193 Q45 200 45 210 Q45 200 60 193 Q75 200 75 215 Q75 200 90 193 Q105 202 105 208 Q105 200 120 193 Q135 200 135 212 Q135 200 150 193 Q165 200 165 208 Q165 200 180 193 Q195 200 195 215 Q195 200 210 193 Q225 200 225 208 Q225 200 230 193" stroke="none" fill="#3D2413"/>
+                            <!-- Pearl dots bottom -->
+                            <circle cx="55" cy="215" r="3" fill="#fff5ee" opacity="0.8"/>
+                            <circle cx="90" cy="218" r="3" fill="#fff5ee" opacity="0.8"/>
+                            <circle cx="130" cy="220" r="3" fill="#fff5ee" opacity="0.8"/>
+                            <circle cx="170" cy="218" r="3" fill="#fff5ee" opacity="0.8"/>
+                            <circle cx="205" cy="215" r="3" fill="#fff5ee" opacity="0.8"/>
+                            <!-- Middle tier -->
+                            <rect x="55" y="130" width="150" height="58" rx="8" fill="#6B4226"/>
+                            <rect x="55" y="130" width="150" height="8" rx="4" fill="#8B5A3A"/>
+                            <!-- Dripping glaze middle -->
+                            <path d="M55 138 Q65 145 65 155 Q65 145 80 138 Q90 146 90 152 Q90 145 105 138 Q115 146 115 158 Q115 146 130 138 Q140 146 140 152 Q140 145 155 138 Q165 146 165 155 Q165 145 180 138 Q190 146 190 152 Q190 145 205 138" stroke="none" fill="#4A2E18"/>
+                            <!-- Pearl dots middle -->
+                            <circle cx="80" cy="160" r="2.5" fill="#fff5ee" opacity="0.8"/>
+                            <circle cx="115" cy="163" r="2.5" fill="#fff5ee" opacity="0.8"/>
+                            <circle cx="150" cy="163" r="2.5" fill="#fff5ee" opacity="0.8"/>
+                            <circle cx="185" cy="160" r="2.5" fill="#fff5ee" opacity="0.8"/>
+                            <!-- Top tier -->
+                            <rect x="80" y="82" width="100" height="50" rx="8" fill="#7B4F2E"/>
+                            <rect x="80" y="82" width="100" height="8" rx="4" fill="#9B6A42"/>
+                            <!-- Dripping glaze top -->
+                            <path d="M80 90 Q90 97 90 105 Q90 97 105 90 Q115 98 115 104 Q115 97 130 90 Q140 98 140 108 Q140 97 155 90 Q165 98 165 104 Q165 97 180 90" stroke="none" fill="#5C3A21"/>
+                            <!-- Pearl dots top -->
+                            <circle cx="105" cy="108" r="2" fill="#fff5ee" opacity="0.8"/>
+                            <circle cx="130" cy="110" r="2" fill="#fff5ee" opacity="0.8"/>
+                            <circle cx="155" cy="108" r="2" fill="#fff5ee" opacity="0.8"/>
+                            <!-- Cherry on top -->
+                            <circle cx="130" cy="78" r="8" fill="#c9186a"/>
+                            <circle cx="127" cy="75" r="2.5" fill="white" opacity="0.3"/>
+                        </svg>
+
+                        <!-- Candle group (shown after first tap) -->
+                        <div class="candle-group" id="candle-group">
+                            <div class="candle-stick"></div>
+                            <div class="candle-flame" id="candle-flame">
+                                <div class="flame-inner"></div>
+                                <div class="flame-outer"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <p class="hint-text hint-light" id="cake-hint">Tap anywhere &amp; make a wish 🕯️</p>
+
+                    <!-- Wish text (shown after blow out) -->
+                    <div class="cake-wish-text" id="cake-wish-text">
+                        <p class="wish-line script-font" id="wish-line">Happy Birthday, <span id="wish-name"></span> 🎂</p>
+                        <p class="wish-sent">Wish sent ✨</p>
+                    </div>
+
+                    <!-- Confetti canvas for cake scene -->
+                    <canvas class="scene-confetti" id="cake-confetti" aria-hidden="true"></canvas>
+                </div>
+            </section>
+
+            <!-- ============================================ -->
+            <!-- SCENE 4 – Pop the balloons (dark plum)      -->
+            <!-- ============================================ -->
+            <section class="scene" id="scene-4" data-bg="dark">
+                <div class="scene-content scene-4-content">
+                    <h2 class="balloon-heading">Pop the balloons 🎈</h2>
+                    <p class="balloon-subtext" id="balloon-subtext">4 reasons are waiting inside. One pop at a time.</p>
+
+                    <!-- Balloons area -->
+                    <div class="balloons-area" id="balloons-area">
+                        <div class="balloon" data-index="0" role="button" tabindex="0" aria-label="Pop balloon 1">
+                            <svg viewBox="0 0 80 100" class="balloon-svg">
+                                <defs>
+                                    <radialGradient id="bGrad0" cx="35%" cy="30%"><stop offset="0%" stop-color="#ff7eb3"/><stop offset="100%" stop-color="#c9186a"/></radialGradient>
+                                </defs>
+                                <ellipse cx="40" cy="40" rx="32" ry="40" fill="url(#bGrad0)"/>
+                                <ellipse cx="32" cy="28" rx="8" ry="12" fill="white" opacity="0.2" transform="rotate(-15,32,28)"/>
+                                <polygon points="36,79 40,85 44,79" fill="#c9186a"/>
+                                <path d="M40 85 Q38 92 42 100 Q40 95 38 100" stroke="#c9186a" stroke-width="1" fill="none" class="balloon-string"/>
+                            </svg>
+                        </div>
+                        <div class="balloon" data-index="1" role="button" tabindex="0" aria-label="Pop balloon 2">
+                            <svg viewBox="0 0 80 100" class="balloon-svg">
+                                <defs>
+                                    <radialGradient id="bGrad1" cx="35%" cy="30%"><stop offset="0%" stop-color="#c49aff"/><stop offset="100%" stop-color="#7b2fbe"/></radialGradient>
+                                </defs>
+                                <ellipse cx="40" cy="40" rx="32" ry="40" fill="url(#bGrad1)"/>
+                                <ellipse cx="32" cy="28" rx="8" ry="12" fill="white" opacity="0.2" transform="rotate(-15,32,28)"/>
+                                <polygon points="36,79 40,85 44,79" fill="#7b2fbe"/>
+                                <path d="M40 85 Q42 92 38 100 Q40 95 42 100" stroke="#7b2fbe" stroke-width="1" fill="none" class="balloon-string"/>
+                            </svg>
+                        </div>
+                        <div class="balloon" data-index="2" role="button" tabindex="0" aria-label="Pop balloon 3">
+                            <svg viewBox="0 0 80 100" class="balloon-svg">
+                                <defs>
+                                    <radialGradient id="bGrad2" cx="35%" cy="30%"><stop offset="0%" stop-color="#7dffb3"/><stop offset="100%" stop-color="#28a55e"/></radialGradient>
+                                </defs>
+                                <ellipse cx="40" cy="40" rx="32" ry="40" fill="url(#bGrad2)"/>
+                                <ellipse cx="32" cy="28" rx="8" ry="12" fill="white" opacity="0.2" transform="rotate(-15,32,28)"/>
+                                <polygon points="36,79 40,85 44,79" fill="#28a55e"/>
+                                <path d="M40 85 Q38 92 42 100 Q40 95 38 100" stroke="#28a55e" stroke-width="1" fill="none" class="balloon-string"/>
+                            </svg>
+                        </div>
+                        <div class="balloon" data-index="3" role="button" tabindex="0" aria-label="Pop balloon 4">
+                            <svg viewBox="0 0 80 100" class="balloon-svg">
+                                <defs>
+                                    <radialGradient id="bGrad3" cx="35%" cy="30%"><stop offset="0%" stop-color="#ffe066"/><stop offset="100%" stop-color="#e6a800"/></radialGradient>
+                                </defs>
+                                <ellipse cx="40" cy="40" rx="32" ry="40" fill="url(#bGrad3)"/>
+                                <ellipse cx="32" cy="28" rx="8" ry="12" fill="white" opacity="0.2" transform="rotate(-15,32,28)"/>
+                                <polygon points="36,79 40,85 44,79" fill="#e6a800"/>
+                                <path d="M40 85 Q42 92 38 100 Q40 95 42 100" stroke="#e6a800" stroke-width="1" fill="none" class="balloon-string"/>
+                            </svg>
+                        </div>
+                    </div>
+
+                    <!-- Reason cards container -->
+                    <div class="reason-cards-container" id="reason-cards"></div>
+
+                    <!-- All-popped text -->
+                    <p class="all-popped-text script-font" id="all-popped-text">Still nowhere near all the reasons ✨</p>
+
+                    <button class="btn-primary" id="btn-next-4" style="display:none">Keep going 💗</button>
+                </div>
+            </section>
+
+            <!-- ============================================ -->
+            <!-- SCENE 5 – Photo memories (dark plum)        -->
+            <!-- ============================================ -->
+            <section class="scene" id="scene-5" data-bg="dark">
+                <div class="scene-content scene-5-content">
+                    <h2 class="memories-heading">Remember these? 📷</h2>
+                    <p class="hint-text hint-light script-font">swipe through 📷</p>
+
+                    <!-- Fairy lights string -->
+                    <div class="string-lights" aria-hidden="true">
+                        <svg viewBox="0 0 400 40" preserveAspectRatio="none" class="lights-svg">
+                            <!-- Thin sagging wire -->
+                            <path d="M0 8 Q60 22 120 12 Q180 28 240 14 Q300 26 360 10 Q380 8 400 10" stroke="#5a5a5a" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+                            <!-- Warm gold fairy light dots with glow -->
+                            <circle cx="40" cy="16" r="3" fill="#ffd97a" class="light-bulb"><animate attributeName="opacity" values="0.6;1;0.6" dur="2.2s" repeatCount="indefinite"/></circle>
+                            <circle cx="90" cy="14" r="2.5" fill="#ffe4a0" class="light-bulb"><animate attributeName="opacity" values="1;0.5;1" dur="1.8s" repeatCount="indefinite"/></circle>
+                            <circle cx="140" cy="22" r="3" fill="#ffd97a" class="light-bulb"><animate attributeName="opacity" values="0.5;1;0.5" dur="2.5s" repeatCount="indefinite"/></circle>
+                            <circle cx="190" cy="24" r="2.5" fill="#ffe4a0" class="light-bulb"><animate attributeName="opacity" values="0.8;1;0.8" dur="1.6s" repeatCount="indefinite"/></circle>
+                            <circle cx="240" cy="16" r="3" fill="#ffd97a" class="light-bulb"><animate attributeName="opacity" values="0.6;1;0.6" dur="2s" repeatCount="indefinite"/></circle>
+                            <circle cx="290" cy="22" r="2.5" fill="#ffe4a0" class="light-bulb"><animate attributeName="opacity" values="1;0.6;1" dur="2.3s" repeatCount="indefinite"/></circle>
+                            <circle cx="340" cy="14" r="3" fill="#ffd97a" class="light-bulb"><animate attributeName="opacity" values="0.7;1;0.7" dur="1.9s" repeatCount="indefinite"/></circle>
+                            <circle cx="380" cy="9" r="2.5" fill="#ffe4a0" class="light-bulb"><animate attributeName="opacity" values="0.5;1;0.5" dur="2.1s" repeatCount="indefinite"/></circle>
+                        </svg>
+                    </div>
+
+                    <!-- Carousel -->
+                    <div class="carousel-wrapper">
+                        <div class="carousel-track" id="carousel-track">
+                            <!-- Polaroids injected by JS from CONFIG.PHOTOS -->
+                        </div>
+                    </div>
+
+                    <!-- Pagination dots -->
+                    <div class="carousel-dots" id="carousel-dots">
+                        <!-- Dots injected by JS -->
+                    </div>
+
+                    <button class="btn-primary" id="btn-next-5">Keep going ✨</button>
+                </div>
+            </section>
+
+            <!-- ============================================ -->
+            <!-- SCENE 6 – Envelope & letter (dark plum)     -->
+            <!-- ============================================ -->
+            <section class="scene" id="scene-6" data-bg="dark">
+                <div class="scene-content scene-6-content">
+                    <h2 class="letter-heading" id="letter-heading">Before this ends, <span class="name-highlight" id="letter-name"></span> …</h2>
+                    <p class="letter-subtext" id="letter-subtext">A letter from <span class="script-font" id="letter-sender"></span> is waiting inside.</p>
+
+                    <!-- Envelope -->
+                    <div class="envelope-container" id="envelope-container" role="button" tabindex="0" aria-label="Open the envelope">
+                        <div class="envelope" id="envelope">
+                            <!-- Envelope body -->
+                            <div class="envelope-back"></div>
+                            <div class="envelope-flap" id="envelope-flap"></div>
+                            <div class="envelope-front"></div>
+                            <!-- Wax seal -->
+                            <div class="wax-seal" id="wax-seal">
+                                <span>S</span>
+                            </div>
+                        </div>
+                        <div class="envelope-hint" id="envelope-hint">
+                            <span class="pointing-hand">👆</span>
+                            <p class="hint-text hint-light">Open when you are ready 💌</p>
+                        </div>
+                    </div>
+
+                    <!-- Letter card (hidden initially) -->
+                    <div class="letter-card" id="letter-card">
+                        <div class="letter-body" id="letter-body">
+                            <!-- Typewriter text inserted by JS -->
+                        </div>
+                        <div class="letter-sign" id="letter-sign">
+                            <!-- Signature inserted by JS -->
+                        </div>
+                        <div class="letter-heart" id="letter-heart">💛</div>
+                    </div>
+
+                    <button class="btn-primary" id="btn-next-6" style="display:none">Keep going ✨</button>
+                </div>
+            </section>
+
+            <!-- ============================================ -->
+            <!-- SCENE 7 – Finale (dark plum + confetti)     -->
+            <!-- ============================================ -->
+            <section class="scene" id="scene-7" data-bg="dark">
+                <div class="scene-content scene-7-content" role="button" tabindex="0">
+                    <canvas class="scene-confetti" id="finale-confetti" aria-hidden="true"></canvas>
+
+                    <h1 class="finale-title">HAPPY BIRTHDAY</h1>
+                    <h1 class="finale-name script-font" id="finale-name">
+                        <!-- Name inserted by JS -->
+                    </h1>
+
+                    <img class="finale-teddy" id="finale-teddy" src="" alt="Teddy bear with party hat" loading="lazy">
+
+                    <p class="finale-footer" id="finale-footer">
+                        <!-- Footer inserted by JS -->
+                    </p>
+
+                    <button class="btn-replay" id="btn-replay">Replay 🔁</button>
+                </div>
+            </section>
+
+            <!-- ============================================ -->
+            <!-- Persistent audio/playback controls          -->
+            <!-- ============================================ -->
+            <div id="controls">
+                <button id="btn-pause" class="ctrl-btn" aria-label="Pause music" title="Pause/Play">
+                    <svg viewBox="0 0 24 24" width="18" height="18" fill="white">
+                        <!-- Pause icon (two bars) -->
+                        <rect x="5" y="4" width="5" height="16" rx="1" class="icon-pause"/>
+                        <rect x="14" y="4" width="5" height="16" rx="1" class="icon-pause"/>
+                        <!-- Play icon (triangle, hidden initially) -->
+                        <polygon points="6,4 6,20 20,12" class="icon-play" style="display:none"/>
+                    </svg>
+                </button>
+                <button id="btn-mute" class="ctrl-btn" aria-label="Mute" title="Mute/Unmute">
+                    <svg viewBox="0 0 24 24" width="18" height="18" fill="white">
+                        <!-- Speaker icon -->
+                        <path d="M3 9v6h4l5 5V4L7 9H3z" class="icon-speaker"/>
+                        <!-- Sound waves -->
+                        <path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z" class="icon-wave1"/>
+                        <path d="M19 12c0-3.07-1.64-5.64-4-7.07v2.05c1.48 1.15 2.5 3 2.5 5.02s-1.02 3.87-2.5 5.02v2.05c2.36-1.43 4-4 4-7.07z" class="icon-wave2"/>
+                        <!-- Mute X (hidden) -->
+                        <line x1="18" y1="8" x2="24" y2="16" stroke="white" stroke-width="2" class="icon-mute-x" style="display:none"/>
+                        <line x1="24" y1="8" x2="18" y2="16" stroke="white" stroke-width="2" class="icon-mute-x" style="display:none"/>
+                    </svg>
+                </button>
+            </div>
+
+        </div><!-- /#phone-frame -->
+    </div><!-- /#app -->
+
+    <script src="script.js"></script>
+</body>
+</html>
